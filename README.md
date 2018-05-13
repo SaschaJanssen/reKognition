@@ -1,3 +1,3 @@
 # Image Rekognition
 
-Using 'Amazon Rekognition' to get insights from images.
+Using 'Amazon reKognition' to get insights from images.
