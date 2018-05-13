@@ -39,7 +39,9 @@ dependencies {
     compile(kotlin("stdlib"))
     compile("org.jetbrains.kotlin:kotlin-reflect:1.2.41")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("com.amazonaws:aws-java-sdk-rekognition:1.11.328")
+
 
 
     testCompile("org.springframework.boot:spring-boot-starter-test")

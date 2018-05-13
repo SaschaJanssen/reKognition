@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class ImageController(val service: ReKognitionService) {
 
-    @GetMapping("/")
+    @GetMapping("/imageinfo")
     fun index(): String {
         val faceDetails = service.detectFaces()
 

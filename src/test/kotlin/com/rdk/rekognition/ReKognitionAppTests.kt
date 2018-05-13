@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class ImageReKognitionAppTests {
+class ReKognitionAppTests {
 
 	@Test
 	fun contextLoads() {

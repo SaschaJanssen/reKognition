@@ -17,7 +17,7 @@ import java.nio.ByteBuffer
 class ReKognitionService(val faceDetector: FaceDetector) {
 
     fun detectFaces(): List<FaceDetail> {
-        val photo = "kid.jpg"
+        val photo = "static/kid.jpg"
 
         val credentials: AWSCredentials = awsCredentials()
         val imageBytes: ByteBuffer = readImageToByteBuffer(photo)
