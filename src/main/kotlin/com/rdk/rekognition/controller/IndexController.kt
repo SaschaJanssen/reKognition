@@ -9,4 +9,7 @@ class IndexController {
     @GetMapping("/")
     fun index() = "index"
 
+    @GetMapping("/cam")
+    fun webcam() = "webcam"
+
 }
