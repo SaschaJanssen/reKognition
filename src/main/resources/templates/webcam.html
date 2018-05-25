@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
     <title>Image reKognition Service</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -22,15 +22,12 @@
     <main role="main" class="inner cover">
 
 
-
         <div id="webcamcontainer">
-            <video id="videoElement" width="640" height="480" style="display:none" ></video>
+            <video id="videoElement" width="640" height="480" style="display:none"></video>
             <canvas id="videoCan" width="640" height="480"></canvas>
         </div>
 
-        <p class="info" id="info">
-            Stand by, calculating data ...
-        </p>
+        <button type="button" class="btn btn-primary" id="startVideoProcessing">start processing</button>
     </main>
 
     <footer class="mastfoot mt-auto">
@@ -52,6 +49,7 @@
 <script>
 
     var redrawTimeoutOnCanvas = 20;
+    var readyProcessing = true;
 
     function draw() {
         var c = document.getElementById("videoCan");
@@ -62,21 +60,21 @@
     };
 
 
-	video = document.querySelector("#videoElement");
-	
-	navigator.mediaDevices.getUserMedia({video:{width:640, height:480}})
-                .then(handleVideo)
-                .catch(videoError);
-        
-            function handleVideo(stream) {
-                video.srcObject = stream;
-                video.play();
-                drawtimer = setInterval(draw, redrawTimeoutOnCanvas);
-            }
-        
-            function videoError(e) {
-                alert(e);
-			}
+    video = document.querySelector("#videoElement");
+
+    navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
+        .then(handleVideo)
+        .catch(videoError);
+
+    function handleVideo(stream) {
+        video.srcObject = stream;
+        video.play();
+        drawtimer = setInterval(draw, redrawTimeoutOnCanvas);
+    }
+
+    function videoError(e) {
+        console.log(e);
+    }
 
 
     function drawReact(ctx, person) {
@@ -112,6 +110,50 @@
 
     }
 
+    var c = document.getElementById("videoCan");
+
+    function processImage() {
+
+        console.log("process video image")
+
+        var result;
+
+        if (!readyProcessing) return;
+
+        readyProcessing = false;
+
+        c.toBlob(function (imgBlob) {
+            analyse(imgBlob)
+            readyProcessing = true;
+        }, "image/png")
+
+        return result
+    }
+
+    function analyse(imgBlob) {
+        console.log(imgBlob)
+
+        /*$.ajax({
+                url: "processwebcam",
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+                },
+                type: "POST",
+                processData: false,
+                data: imgBlob
+            })
+            .done(function (data) {
+                result = data;
+                readyProcessing = true;
+                console.log(result)
+            })
+            .fail(function () {
+                readyProcessing = true;
+                console.log("error");
+            });
+            */
+    }
+
     /*
     $.getJSON('/webcaminfo', function (data) {
         console.log(data)
@@ -121,6 +163,9 @@
     });
     */
 
+    $('#startVideoProcessing').on('click', function () {
+        setInterval(processImage(), 100);
+    })
 
 </script>
 
