@@ -49,11 +49,11 @@
 <script>
 
     var redrawTimeoutOnCanvas = 20;
-    var readyProcessing = true;
+    var processing = false;
+    var canves = document.getElementById("videoCan");
 
     function draw() {
-        var c = document.getElementById("videoCan");
-        var context = c.getContext('2d');
+        var context = canves.getContext('2d');
         context.beginPath();
         context.clearRect(0, 0, 640, 480);
         context.drawImage(video, 0, 0, 640, 480);
@@ -110,30 +110,26 @@
 
     }
 
-    var c = document.getElementById("videoCan");
-
     function processImage() {
 
         console.log("process video image")
 
-        var result;
+        if (processing) return;
 
-        if (!readyProcessing) return;
+        processing = false;
 
-        readyProcessing = false;
-
-        c.toBlob(function (imgBlob) {
+        canves.toBlob(function (imgBlob) {
             analyse(imgBlob)
-            readyProcessing = true;
+            processing = true;
         }, "image/png")
 
-        return result
     }
 
     function analyse(imgBlob) {
         console.log(imgBlob)
 
-        /*$.ajax({
+        /*
+        $.ajax({
                 url: "processwebcam",
                 beforeSend: function (xhrObj) {
                     xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
@@ -143,25 +139,16 @@
                 data: imgBlob
             })
             .done(function (data) {
-                result = data;
-                readyProcessing = true;
-                console.log(result)
+                $.each(data, function () {
+                    drawReact(ctx, this)
+                  });
             })
-            .fail(function () {
-                readyProcessing = true;
-                console.log("error");
+            .fail(function (e) {
+                console.log(e);
             });
+
             */
     }
-
-    /*
-    $.getJSON('/webcaminfo', function (data) {
-        console.log(data)
-        $.each(data, function () {
-            drawReact(ctx, this)
-        });
-    });
-    */
 
     $('#startVideoProcessing').on('click', function () {
         setInterval(processImage(), 100);
