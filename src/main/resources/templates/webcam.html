@@ -28,6 +28,7 @@
         </div>
 
         <button type="button" class="btn btn-primary" id="startVideoProcessing">start processing</button>
+        <button type="button" class="btn btn-primary" id="stopVideoProcessing">stop processing</button>
     </main>
 
     <footer class="mastfoot mt-auto">
@@ -50,17 +51,23 @@
 
     var redrawTimeoutOnCanvas = 20;
     var processing = false;
-    var canves = document.getElementById("videoCan");
+    var isStopped = true;
+    var canvas = document.getElementById("videoCan")
+    var video = document.querySelector("#videoElement")
+    var faceData
 
     function draw() {
-        var context = canves.getContext('2d');
+        var context = canvas.getContext('2d');
         context.beginPath();
         context.clearRect(0, 0, 640, 480);
         context.drawImage(video, 0, 0, 640, 480);
+
+        if ((faceData === undefined) || (faceData == null)) return;
+        $.each(faceData, function () {
+            drawRect(context, this)
+        });
     };
 
-
-    video = document.querySelector("#videoElement");
 
     navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
         .then(handleVideo)
@@ -76,15 +83,14 @@
         console.log(e);
     }
 
-
-    function drawReact(ctx, person) {
+    function drawRect(ctx, person) {
 
         var leftX = ctx.canvas.width * person.boundingBox.left;
         var leftY = ctx.canvas.height * person.boundingBox.top;
         var width = ctx.canvas.width * person.boundingBox.width;
         var height = ctx.canvas.height * person.boundingBox.height;
 
-        var ageText = "Age " + person.ageRange.low
+        var ageText = "Age " + person.ageRange.low + " / " + person.ageRange.high
         var gender = person.gender.value
 
         ctx.beginPath();
@@ -112,46 +118,39 @@
 
     function processImage() {
 
-        console.log("process video image")
+        if (processing || isStopped) return
 
-        if (processing) return;
+        processing = true
 
-        processing = false;
-
-        canves.toBlob(function (imgBlob) {
-            analyse(imgBlob)
-            processing = true;
-        }, "image/png")
+        var imageData = canvas.toDataURL("image/jpeg", 1.0)
+        analyse(imageData.replace(/^data:image\/(png|jpeg);base64,/, ""))
 
     }
 
-    function analyse(imgBlob) {
-        console.log(imgBlob)
-
-        /*
+    function analyse(imageData) {
         $.ajax({
-                url: "processwebcam",
-                beforeSend: function (xhrObj) {
-                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-                },
-                type: "POST",
-                processData: false,
-                data: imgBlob
-            })
+            url: "/analyse/webcam",
+            data: {imageData: imageData},
+            type: "POST",
+            dataType: "JSON"
+        })
             .done(function (data) {
-                $.each(data, function () {
-                    drawReact(ctx, this)
-                  });
+                console.log(data)
+                faceData = data
+                processing = false;
             })
             .fail(function (e) {
                 console.log(e);
             });
-
-            */
     }
 
     $('#startVideoProcessing').on('click', function () {
-        setInterval(processImage(), 100);
+        isStopped = false
+        setInterval(processImage, 200)
+    })
+
+    $('#stopVideoProcessing').on('click', function () {
+        isStopped = true
     })
 
 </script>
