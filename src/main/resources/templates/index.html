@@ -10,36 +10,6 @@
 
 </head>
 
-<style>
-    .wrapper {
-        width: 807px;
-        height: 550px;
-        margin: 20px 60px;
-    }
-
-    .insideWrapper {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
-
-    .image {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-
-    #can {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-</style>
-
 <body class="text-center">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -51,22 +21,17 @@
 
     <main role="main" class="inner cover">
 
-        <div class="wrapper">
-            <div class="insideWrapper">
-                <img th:src="@{/kid.jpg}" src="../static/kid.jpg" alt="kid" class="image"/>
-                <canvas id="can"></canvas>
-            </div>
+
+        <div id="webcamcontainer">
+            <video id="videoElement" width="640" height="480" style="display:none"></video>
+            <canvas id="videoCan" width="640" height="480"></canvas>
         </div>
-        <p class="info" id="info">
-            Stand by, calculating data ...
-        </p>
+
+        <button type="button" class="btn btn-primary" id="startAnlysingVideo">start processing</button>
+        <button type="button" class="btn btn-primary" id="stopAnlysingVideo">stop processing</button>
     </main>
 
-    <footer class="mastfoot mt-auto">
-        <div class="inner">
-            <p>reKognition Service</p>
-        </div>
-    </footer>
+
 </div>
 
 
@@ -78,51 +43,39 @@
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
 
+<script th:src="@{/js/analyser.js}" src="../static/js/analyser.js"></script>
+<script th:src="@{/js/drawer.js}" src="../static/js/drawer.js"></script>
+
 <script>
+        var redrawTimeoutOnCanvas = 20
 
-    function drawReact(ctx, person) {
+        var video = document.querySelector("#videoElement")
 
-        var leftX = ctx.canvas.width * person.boundingBox.left;
-        var leftY = ctx.canvas.height * person.boundingBox.top;
-        var width = ctx.canvas.width * person.boundingBox.width;
-        var height = ctx.canvas.height * person.boundingBox.height;
+        navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
+            .then(handleVideo)
+            .catch(videoError);
 
-        var ageText = "Age " + person.ageRange.low
-        var gender = person.gender.value
+        function handleVideo(stream) {
+            video.srcObject = stream;
+            video.play();
 
-        ctx.beginPath();
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(leftX + 5, leftY + height + 2, ctx.measureText(ageText).width + 10, 14);
-        ctx.fillRect(leftX + 5, leftY + height + 15, ctx.measureText(gender).width + 10, 14);
+            setInterval(Drawer.drawVideo, redrawTimeoutOnCanvas);
+        }
 
-        ctx.fillStyle = 'red';
-        ctx.font = '10pt Arial';
-        ctx.fillText("Age " + person.ageRange.low, leftX + 5, leftY + height + 14);
+        function videoError(e) {
+            console.log(e);
+        }
 
-        ctx.fillText(gender, leftX + 5, leftY + height + 28);
+        $('#startAnlysingVideo').on('click', function () {
+            console.log("Start analysing web cam video")
+            Analyser.setStart()
+            setInterval(Analyser.processImage, 300)
+        })
 
-        ctx.stroke();
-
-
-        ctx.beginPath();
-        ctx.lineWidth = "1";
-        ctx.strokeStyle = "yellow";
-
-        ctx.rect(leftX, leftY, width, height);
-        ctx.stroke();
-
-    }
-
-    var c = document.getElementById("can");
-    var ctx = c.getContext("2d");
-
-    $.getJSON('/imageinfo', function (data) {
-        console.log(data)
-        $.each(data, function () {
-            drawReact(ctx, this)
-        });
-    });
-
+        $('#stopAnlysingVideo').on('click', function () {
+            console.log("Stop analysing web cam video")
+            Analyser.setStop()
+        })
 
 </script>
 

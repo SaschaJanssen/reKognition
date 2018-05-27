@@ -10,8 +10,13 @@ import java.nio.ByteBuffer
 class ReKognitionService(val faceDetector: FaceDetector) {
 
 
+    private val base64canvasImageRegex = "^data:image/(png|jpeg);base64,".toRegex()
+
     fun detectFaces(imageData: String): List<FaceDetail> {
-        val imageBytes = Base64.decode(imageData)
+
+        val cleanedImageData = imageData.replace(base64canvasImageRegex, "")
+
+        val imageBytes = Base64.decode(cleanedImageData)
 
         FileOutputStream("img.jpeg").use { out -> out.write(imageBytes) }
 
