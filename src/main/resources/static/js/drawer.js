@@ -35,6 +35,20 @@ var Drawer = (function () {
 
     }
 
+    function fillInfoTable(faceData) {
+
+        $("#infotablebody tr").remove()
+
+        $("#infotablebody").append("<tr><th scope=\"row\">Smile</th><td>" + faceData.smile.value + "</td><td>" + faceData.smile.confidence + "</td></tr>")
+            .append("<tr><th scope=\"row\">Eyeglasses</th><td>" + faceData.eyeglasses.value + "</td><td>" + faceData.eyeglasses.confidence + "</td></tr>")
+            .append("<tr><th scope=\"row\">sunglasses</th><td>" + faceData.sunglasses.value + "</td><td>" + faceData.sunglasses.confidence + "</td></tr>")
+            .append("<tr><th scope=\"row\">Beard</th><td>" + faceData.beard.value + "</td><td>" + faceData.beard.confidence + "</td></tr>")
+            .append("<tr><th scope=\"row\">Eyes open</th><td>" + faceData.eyesOpen.value + "</td><td>" + faceData.eyesOpen.confidence + "</td></tr>")
+            .append("<tr><th scope=\"row\">Mouth open</th><td>" + faceData.mouthOpen.value + "</td><td>" + faceData.mouthOpen.confidence + "</td></tr>")
+
+        //console.log(this.emotions)
+    }
+
     return {
 
         drawVideo: function () {
@@ -49,6 +63,7 @@ var Drawer = (function () {
             if ((faceData === undefined) || (faceData == null)) return
             $.each(faceData, function () {
                 drawRect(context, this)
+                fillInfoTable(this)
             })
         }
 
