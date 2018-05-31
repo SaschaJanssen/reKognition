@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SaschaRodekamp/reKognition.svg?branch=master)](https://travis-ci.org/SaschaRodekamp/reKognition)
+
 # Image Rekognition
 
 Using 'Amazon reKognition' to get insights from images.
