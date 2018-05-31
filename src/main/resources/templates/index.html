@@ -12,52 +12,79 @@
 
 <body class="text-center">
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="masthead mb-auto">
-        <div class="inner">
-            <h3 class="masthead-brand">reKognition</h3>
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="#">Webcam</a>
-                <a class="nav-link" href="#">Image</a>
-            </nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">reKognition</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-secondary" id="startAnlysingVideo">start processing</button>
+            <button type="button" class="btn btn-secondary" id="stopAnlysingVideo">stop processing</button>
         </div>
-    </header>
-
-    <main role="main" class="inner cover">
+    </div>
 
 
-        <button type="button" class="btn btn-secondary" id="startAnlysingVideo">start processing</button>
-        <button type="button" class="btn btn-secondary" id="stopAnlysingVideo">stop processing</button>
-
-
-        <p>
-        <div id="webcamcontainer">
+    <div class="row">
+        <div class="col-sm">
             <video id="videoElement" width="640" height="480" style="display:none"></video>
             <canvas id="videoCan" width="640" height="480"></canvas>
         </div>
-        </p>
-
-        <table class="table table-striped" id="datatable">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Value</th>
-                <th scope="col">Confidence</th>
-            </tr>
-            </thead>
-            <tbody id="infotablebody">
-            </tbody>
-        </table>
-
-
-    </main>
-
-    <footer class="mastfoot mt-auto">
-        <div class="inner">
-            <p></p>
+        <div class="col-sm">
+            <h3>Emotions</h3>
+            <ul class="list-group" id="emotionlist">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    happy
+                    <span class="badge badge-primary badge-pill">99,3336532</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    sad
+                    <span class="badge badge-primary badge-pill">2,12343666</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    relaxed
+                    <span class="badge badge-primary badge-pill">78,0</span>
+                </li>
+            </ul>
         </div>
-    </footer>
-</div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h3>Information</h3>
+            <table class="table table-striped" id="datatable">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Confidence</th>
+                </tr>
+                </thead>
+                <tbody id="infotablebody">
+                <tr>
+                    <th scope="row">Gender</th>
+                    <td>Male</td>
+                    <td><span class="badge badge-primary badge-pill">97,12507854839</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Smile</th>
+                    <td>true</td>
+                    <td><span class="badge badge-primary badge-pill">99,999999999</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</main>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
