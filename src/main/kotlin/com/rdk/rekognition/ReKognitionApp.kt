@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class ImageReKognitionApp
+class ReKognitionApp
 
 fun main(args: Array<String>) {
-    SpringApplication.run(ImageReKognitionApp::class.java, *args)
+    SpringApplication.run(ReKognitionApp::class.java, *args)
 }
