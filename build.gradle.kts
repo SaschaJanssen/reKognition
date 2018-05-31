@@ -1,25 +1,37 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+
+group = "com.rdk.rekognition"
+version = "1.0"
+
 buildscript {
+
+    val kotlinVersion = "1.2.41"
+
     repositories {
         jcenter()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41") // Required for Kotlin integration
-        classpath("org.jetbrains.kotlin:kotlin-allopen:1.2.41") // See https://kotlinlang.org/docs/reference/compiler-plugins.html#kotlin-spring-compiler-plugin
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}") // Required for Kotlin integration
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}") // See https://kotlinlang.org/docs/reference/compiler-plugins.html#kotlin-spring-compiler-plugin
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
     }
 }
 
 plugins {
-    application
-    kotlin("jvm") version "1.2.41"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.2.41"
+
+    val kotlinVersion = "1.2.41"
+
+    kotlin("jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
 
     id("org.springframework.boot") version "2.0.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.5.RELEASE"
 }
 
-group = "com.rdk.rekognition"
-version = "1.0"
+apply {
+    plugin("org.springframework.boot")
+}
 
 repositories {
     jcenter()
@@ -32,16 +44,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-application {
-    mainClassName = "com.rdk.rekognition.ImageRekognitionApp"
-}
-
 dependencies {
     compile(kotlin("stdlib"))
-    compile("org.jetbrains.kotlin:kotlin-reflect:1.2.41")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
+
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude(module = "spring-boot-starter-validation")
+    }
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
+
     compile("com.amazonaws:aws-java-sdk-rekognition:1.11.328")
 
 
