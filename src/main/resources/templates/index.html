@@ -26,8 +26,11 @@
 
     <div class="row mt-2">
         <div class="col">
-            <button type="button" class="btn btn-secondary" id="startAnlysingVideo">start processing</button>
-            <button type="button" class="btn btn-secondary" id="stopAnlysingVideo">stop processing</button>
+            <button type="button" class="btn btn-secondary" id="startAnlysingVideo">start analysing</button>
+            <button type="button" class="btn btn-secondary" id="stopAnlysingVideo">stop analysing</button>
+            <div class="alert alert-light" role="alert" id="analysingstate">
+                Not Analysing!
+            </div>
         </div>
     </div>
 
@@ -120,13 +123,29 @@
     }
 
     $('#startAnlysingVideo').on('click', function () {
+        if (processTimer !== undefined && processTimer != null) {
+            console.log("Already analysing")
+            return;
+        }
+
+        $("#analysingstate").text("Analysing!")
+
         console.log("Start analysing web cam video")
+
+        $("#infotablebody tr").remove()
+        $("#emotionlist li").remove()
+
+        $("#emotionlist").append("<li class='list-unstyled'> <div class='loader'></div> </li>")
+
         processTimer = setInterval(Analyser.processImage, 300)
     })
 
     $('#stopAnlysingVideo').on('click', function () {
         if (processTimer !== undefined && processTimer != null) {
             console.log("Stop analysing web cam video")
+
+            $("#analysingstate").text("Not Analysing!")
+
             clearInterval(processTimer);
             processTimer = null;
         }
