@@ -1,3 +1,6 @@
 # Allow Thymeleaf templates to be reloaded at dev time
-spring.template.cache: false
-spring.thymeleaf.cache: false
+spring:
+  template:
+    cache: false
+  thymeleaf:
+    cache: false

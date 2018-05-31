@@ -2,7 +2,7 @@ var Drawer = (function () {
 
     var canvas = document.getElementById("videoCan")
 
-    function drawRect (context, person) {
+    function drawRect(context, person) {
 
         var leftX = context.canvas.width * person.boundingBox.left
         var leftY = context.canvas.height * person.boundingBox.top
@@ -39,14 +39,23 @@ var Drawer = (function () {
 
         $("#infotablebody tr").remove()
 
-        $("#infotablebody").append("<tr><th scope=\"row\">Smile</th><td>" + faceData.smile.value + "</td><td>" + faceData.smile.confidence + "</td></tr>")
-            .append("<tr><th scope=\"row\">Eyeglasses</th><td>" + faceData.eyeglasses.value + "</td><td>" + faceData.eyeglasses.confidence + "</td></tr>")
-            .append("<tr><th scope=\"row\">sunglasses</th><td>" + faceData.sunglasses.value + "</td><td>" + faceData.sunglasses.confidence + "</td></tr>")
-            .append("<tr><th scope=\"row\">Beard</th><td>" + faceData.beard.value + "</td><td>" + faceData.beard.confidence + "</td></tr>")
-            .append("<tr><th scope=\"row\">Eyes open</th><td>" + faceData.eyesOpen.value + "</td><td>" + faceData.eyesOpen.confidence + "</td></tr>")
-            .append("<tr><th scope=\"row\">Mouth open</th><td>" + faceData.mouthOpen.value + "</td><td>" + faceData.mouthOpen.confidence + "</td></tr>")
+        $("#infotablebody")
+            .append("<tr><th scope=\"row\">Gender</th><td>" + faceData.gender.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.gender.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">Smile</th><td>" + faceData.smile.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.smile.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">Eyeglasses</th><td>" + faceData.eyeglasses.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.eyeglasses.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">sunglasses</th><td>" + faceData.sunglasses.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.sunglasses.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">Beard</th><td>" + faceData.beard.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.beard.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">Eyes open</th><td>" + faceData.eyesOpen.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.eyesOpen.confidence + "</span></td></tr>")
+            .append("<tr><th scope=\"row\">Mouth open</th><td>" + faceData.mouthOpen.value + "</td><td><span class=\"badge badge-primary badge-pill\">" + faceData.mouthOpen.confidence + "</span></td></tr>")
 
-        //console.log(this.emotions)
+        if (faceData.emotions !== undefined && faceData.emotions != null) {
+            $("#emotionlist li").remove()
+            $.each(faceData.emotions, function () {
+                $("#emotionlist").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" +
+                    this.type +
+                    "<span class=\"badge badge-primary badge-pill\">" + this.confidence + "</span></li>")
+            })
+        }
     }
 
     return {

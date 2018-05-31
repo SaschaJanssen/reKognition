@@ -3,7 +3,6 @@ var Analyser = (function () {
     var canvas = document.getElementById("videoCan")
 
     var processing = false
-    var isStopped = true
     var faceData
 
     function analyseImage(imageData) {
@@ -24,7 +23,7 @@ var Analyser = (function () {
 
     return {
         processImage: function () {
-            if (processing || isStopped) return
+            if (processing) return
 
             processing = true
 
@@ -34,14 +33,6 @@ var Analyser = (function () {
 
         getFaceData: function () {
             return faceData
-        },
-
-        setStart: function () {
-            isStopped = false
-        },
-
-        setStop: function () {
-            isStopped = true
         }
     }
 

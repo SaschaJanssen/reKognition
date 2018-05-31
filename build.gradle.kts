@@ -41,6 +41,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:1.2.41")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-devtools")
     compile("com.amazonaws:aws-java-sdk-rekognition:1.11.328")
 
 

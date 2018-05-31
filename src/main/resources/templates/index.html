@@ -24,7 +24,7 @@
 
 <main role="main" class="container">
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col">
             <button type="button" class="btn btn-secondary" id="startAnlysingVideo">start processing</button>
             <button type="button" class="btn btn-secondary" id="stopAnlysingVideo">stop processing</button>
@@ -32,7 +32,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-sm">
             <video id="videoElement" width="640" height="480" style="display:none"></video>
             <canvas id="videoCan" width="640" height="480"></canvas>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col">
             <h3>Information</h3>
             <table class="table table-striped" id="datatable">
@@ -100,9 +100,8 @@
 
 <script>
 
-
     var redrawTimeoutOnCanvas = 20
-
+    var processTimer;
     var video = document.querySelector("#videoElement")
 
     navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
@@ -122,13 +121,15 @@
 
     $('#startAnlysingVideo').on('click', function () {
         console.log("Start analysing web cam video")
-        Analyser.setStart()
-        setInterval(Analyser.processImage, 300)
+        processTimer = setInterval(Analyser.processImage, 300)
     })
 
     $('#stopAnlysingVideo').on('click', function () {
-        console.log("Stop analysing web cam video")
-        Analyser.setStop()
+        if (processTimer !== undefined && processTimer != null) {
+            console.log("Stop analysing web cam video")
+            clearInterval(processTimer);
+            processTimer = null;
+        }
     })
 
 </script>
