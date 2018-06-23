@@ -1,6 +1,7 @@
 package com.rdk.rekognition.controller
 
 import com.amazonaws.services.rekognition.model.FaceDetail
+import com.amazonaws.services.rekognition.model.Label
 import com.rdk.rekognition.service.ReKognitionService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,5 +17,10 @@ class AnalyseController(val service: ReKognitionService) {
         return service.detectFaces(imageData)
     }
 
+
+    @PostMapping("/labels")
+    fun detectLables(@RequestParam(value = "imageData") imageData: String): List<Label> {
+        return service.detectLables(imageData)
+    }
 
 }

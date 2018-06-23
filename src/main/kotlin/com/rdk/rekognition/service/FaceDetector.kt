@@ -16,7 +16,6 @@ class FaceDetector {
                 .withImage(Image().withBytes(imageBytes))
                 .withAttributes(Attribute.ALL)
 
-        // detect face
         val resultDetectFace = client.detectFaces(requestDetectFace)
         return resultDetectFace.faceDetails
     }
