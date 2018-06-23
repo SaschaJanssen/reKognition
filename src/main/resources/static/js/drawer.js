@@ -9,7 +9,7 @@ var Drawer = (function () {
         var width = context.canvas.width * person.boundingBox.width
         var height = context.canvas.height * person.boundingBox.height
 
-        var ageText = "Age " + person.ageRange.low
+        var ageText = "Age " + parseInt((person.ageRange.low + person.ageRange.high) / 2)
         var gender = person.gender.value
 
         context.beginPath()
@@ -19,7 +19,7 @@ var Drawer = (function () {
 
         context.fillStyle = 'red'
         context.font = '10pt Arial'
-        context.fillText("Age " + person.ageRange.low, leftX + 5, leftY + height + 14)
+        context.fillText(ageText, leftX + 5, leftY + height + 14)
 
         context.fillText(gender, leftX + 5, leftY + height + 28)
 
