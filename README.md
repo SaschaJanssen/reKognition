@@ -2,7 +2,8 @@
 
 # Image Rekognition
 
-Using 'Amazon reKognition' to get insights from images.
+Using 'Amazon reKognition' to get insights from images:
+ [Amazon Rekognition](https://aws.amazon.com/de/rekognition/)
 
 ## Preconditions
 To start the application, you need first an AWS account, then install and configure the AWS CLI. 
