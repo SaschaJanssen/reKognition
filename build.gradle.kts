@@ -6,7 +6,7 @@ version = "1.0"
 
 buildscript {
 
-    val kotlinVersion = "1.2.41"
+    val kotlinVersion = "1.2.50"
 
     repositories {
         jcenter()
@@ -14,18 +14,18 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}") // Required for Kotlin integration
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}") // See https://kotlinlang.org/docs/reference/compiler-plugins.html#kotlin-spring-compiler-plugin
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
     }
 }
 
 plugins {
 
-    val kotlinVersion = "1.2.41"
+    val kotlinVersion = "1.2.50"
 
     kotlin("jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
 
-    id("org.springframework.boot") version "2.0.2.RELEASE"
+    id("org.springframework.boot") version "2.0.3.RELEASE"
     id("io.spring.dependency-management") version "1.0.5.RELEASE"
 }
 
@@ -54,7 +54,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
 
-    compile("com.amazonaws:aws-java-sdk-rekognition:1.11.328")
+    compile("com.amazonaws:aws-java-sdk-rekognition:1.11.354")
 
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
