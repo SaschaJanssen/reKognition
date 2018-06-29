@@ -5,7 +5,6 @@ group = "com.rdk.rekognition"
 version = "1.0"
 
 buildscript {
-
     val kotlinVersion = "1.2.50"
 
     repositories {
@@ -19,6 +18,8 @@ buildscript {
 }
 
 plugins {
+    base
+    java
 
     val kotlinVersion = "1.2.50"
 
